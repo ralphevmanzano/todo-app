@@ -6,6 +6,7 @@ import com.example.android.architecture.blueprints.todoapp.data.Result
 import com.example.android.architecture.blueprints.todoapp.data.Result.*
 import com.example.todo_app.data.Task
 import com.example.todo_app.data.TasksRepository
+import com.example.todo_app.ui.BaseViewModel
 import com.example.todo_app.util.Event
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
@@ -15,7 +16,7 @@ import javax.inject.Named
 class AddTaskViewModel @Inject constructor(
   private val repository: TasksRepository,
   @Named("main") val dispatcher: CoroutineDispatcher
-) : ViewModel() {
+) : BaseViewModel() {
 
   val title = MutableLiveData<String>()
   val description = MutableLiveData<String>()
@@ -69,7 +70,7 @@ class AddTaskViewModel @Inject constructor(
     val currentDesc = description.value
 
     if (currentTitle == null || currentDesc == null) {
-      // snackbar error message
+      _snackbarText.value = Event("Please don't leave a field empty")
       return
     }
 

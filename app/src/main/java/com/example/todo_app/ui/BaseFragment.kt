@@ -11,10 +11,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.todo_app.BR
 import com.example.todo_app.MainActivity
+import com.example.todo_app.util.setupSnackbar
+import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-abstract class BaseFragment<VM : ViewModel, DB : ViewDataBinding> :
+abstract class BaseFragment<VM : BaseViewModel, DB : ViewDataBinding> :
   DaggerFragment() {
 
   @Inject
@@ -31,6 +33,15 @@ abstract class BaseFragment<VM : ViewModel, DB : ViewDataBinding> :
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     viewModel = ViewModelProvider(this, viewModelFactory).get(getViewModel())
+  }
+
+  override fun onActivityCreated(savedInstanceState: Bundle?) {
+    super.onActivityCreated(savedInstanceState)
+    setupSnackbar()
+  }
+
+  private fun setupSnackbar() {
+    view?.setupSnackbar(viewLifecycleOwner, viewModel.snackbarText, Snackbar.LENGTH_SHORT)
   }
 
   override fun onCreateView(
