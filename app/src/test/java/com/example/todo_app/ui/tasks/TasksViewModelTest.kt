@@ -1,6 +1,7 @@
 package com.example.todo_app.ui.tasks
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.LiveData
 import com.example.android.architecture.blueprints.todoapp.data.Result
 import com.example.todo_app.LiveDataTestUtil
 import com.example.todo_app.TestMainCoroutineRule
@@ -69,6 +70,24 @@ class TasksViewModelTest {
     assertThat(tasks[0], `is`(task1))
     assertThat(tasks[1], `is`(task2))
     assertThat(tasks[2], `is`(task3))
+
+    val value = LiveDataTestUtil.getValue(tasksViewModel.showEmptyNotice)
+    assertThat(value, `is`(false))
+  }
+
+  @Test
+  fun whenLoading_hasNoItems_showEmptyNotice() = mainCoroutineRule.runBlocking {
+    tasksRepository.stub {
+      onBlocking { getTasks() }.doReturn(Result.Success(emptyList()))
+    }
+
+    tasksViewModel.loadTasks()
+
+    val tasks = LiveDataTestUtil.getValue(tasksViewModel.tasks)
+    assertThat(tasks.size, `is`(0))
+
+    val value = LiveDataTestUtil.getValue(tasksViewModel.showEmptyNotice)
+    assertThat(value, `is`(true))
   }
 
   @Test
@@ -91,5 +110,10 @@ class TasksViewModelTest {
     tasksViewModel.completeTask(task1, true)
 
     verifyBlocking(tasksRepository){ completeTask(task1) }
+
+    val value = LiveDataTestUtil.getValue(tasksViewModel.snackbarText)
+    assertThat(value.getContentIfNotHandled(), notNullValue())
   }
+
+
 }

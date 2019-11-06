@@ -11,3 +11,4 @@ git *.iml
 /captures
 .externalNativeBuild
 .cxx
+.gradle/

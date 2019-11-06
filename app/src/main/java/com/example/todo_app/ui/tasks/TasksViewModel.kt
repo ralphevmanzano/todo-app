@@ -1,5 +1,6 @@
 package com.example.todo_app.ui.tasks
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -28,14 +29,21 @@ class TasksViewModel @Inject constructor(
   private val _detailsEvent = MutableLiveData<Event<String>>()
   val detailsEvent: LiveData<Event<String>> = _detailsEvent
 
-  private val _snackbarText = MutableLiveData<Event<Int>>()
-  val snackbarText: LiveData<Event<Int>> = _snackbarText
+  private val _snackbarText = MutableLiveData<Event<String>>()
+  val snackbarText: LiveData<Event<String>> = _snackbarText
+
+  private val _showEmptyNotice = MutableLiveData<Boolean>()
+  val showEmptyNotice: LiveData<Boolean> = _showEmptyNotice
+
 
   fun loadTasks() {
     viewModelScope.launch(mainDispatcher) {
       val tasksResult = repository.getTasks()
+
       if (tasksResult is Success) {
         val tasks = tasksResult.data
+
+        _showEmptyNotice.value = tasksResult.data.isEmpty()
         _tasks.value = ArrayList(tasks)
       }
     }
@@ -44,7 +52,7 @@ class TasksViewModel @Inject constructor(
   fun completeTask(task: Task, isCompleted: Boolean) = viewModelScope.launch(mainDispatcher) {
     if (isCompleted) {
       repository.completeTask(task)
-      showSnackbarMessage(R.string.successfully_marked)
+      showSnackbarMessage("Successfully completed task ${task.title}!")
     } else {
       repository.activateTask(task)
     }
@@ -52,7 +60,11 @@ class TasksViewModel @Inject constructor(
   }
 
   fun deleteTask(id: String) = viewModelScope.launch(mainDispatcher) {
+    val task = repository.getTask(id)
     repository.deleteTask(id)
+    if (task is Success) {
+      showSnackbarMessage("Successfuly deleted task ${task.data.title}!")
+    }
     loadTasks()
   }
 
@@ -64,7 +76,7 @@ class TasksViewModel @Inject constructor(
     _detailsEvent.value = Event(id)
   }
 
-  private fun showSnackbarMessage(message: Int) {
+  private fun showSnackbarMessage(message: String) {
     _snackbarText.value = Event(message)
   }
 }

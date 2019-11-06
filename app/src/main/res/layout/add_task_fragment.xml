@@ -16,6 +16,7 @@
     android:paddingTop="16dp"
     android:paddingEnd="16dp"
     android:paddingBottom="16dp"
+    android:focusableInTouchMode="true"
     tools:context=".ui.addtask.AddTaskFragment">
 
     <com.google.android.material.textfield.TextInputLayout

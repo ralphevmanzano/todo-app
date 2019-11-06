@@ -1,6 +1,5 @@
 package com.example.todo_app.data
 
-import android.util.Log
 import com.example.android.architecture.blueprints.todoapp.data.Result
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -16,13 +15,8 @@ class DefaultTasksRepository @Inject constructor(
   override suspend fun getTasks(): Result<List<Task>> {
     return withContext(dispatcher) {
       val tasks = fetchTasks()
-      Log.d("tasks", tasks.toString())
       (tasks as? Result.Success)?.let {
-        Log.d("tasks1", it.data.toString())
-        if (it.data.isNotEmpty()) {
-          return@withContext Result.Success(it.data)
-        }
-        return@withContext Result.Error(Exception("Illegal state: empty"))
+        return@withContext Result.Success(it.data)
       }
 
       return@withContext Result.Error(Exception("Illegal state"))

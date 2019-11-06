@@ -4,6 +4,7 @@
   xmlns:tools="http://schemas.android.com/tools">
 
   <data>
+    <import type="android.view.View"/>
     <variable
       name="viewModel"
       type="com.example.todo_app.ui.tasks.TasksViewModel" />
@@ -30,6 +31,15 @@
       app:fabSize="normal"
       app:layout_anchor="@id/rv"
       app:layout_anchorGravity="bottom|right|end" />
+
+    <TextView
+      android:id="@+id/textView"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_horizontal"
+      android:layout_marginTop="54dp"
+      android:visibility="@{viewModel.showEmptyNotice ? View.VISIBLE : View.GONE}"
+      android:text="@string/empty_notice" />
 
   </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

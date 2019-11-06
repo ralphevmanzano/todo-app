@@ -26,6 +26,11 @@ class AddTaskFragment : BaseFragment<AddTaskViewModel, AddTaskFragmentBinding>()
     viewModel.init(args.id)
   }
 
+  override fun onStop() {
+    hideKeyboard()
+    super.onStop()
+  }
+
   private fun setupNavigation() {
     viewModel.taskUpdatedEvent.observe(viewLifecycleOwner, EventObserver{
       findNavController().popBackStack()

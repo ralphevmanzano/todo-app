@@ -1,19 +1,16 @@
 package com.example.todo_app.ui
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
-import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.example.todo_app.BR
+import com.example.todo_app.MainActivity
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
@@ -45,5 +42,9 @@ abstract class BaseFragment<VM : ViewModel, DB : ViewDataBinding> :
     binding.lifecycleOwner = viewLifecycleOwner
     binding.setVariable(BR.viewModel, viewModel)
     return binding.root
+  }
+
+  protected fun hideKeyboard() {
+    (activity as MainActivity).hideKeyboard()
   }
 }

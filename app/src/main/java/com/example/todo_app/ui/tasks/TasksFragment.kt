@@ -7,6 +7,8 @@ import com.example.todo_app.R
 import com.example.todo_app.databinding.TasksFragmentBinding
 import com.example.todo_app.ui.BaseFragment
 import com.example.todo_app.util.EventObserver
+import com.example.todo_app.util.setupSnackbar
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.tasks_fragment.*
 
 class TasksFragment : BaseFragment<TasksViewModel, TasksFragmentBinding>() {
@@ -25,6 +27,8 @@ class TasksFragment : BaseFragment<TasksViewModel, TasksFragmentBinding>() {
     setupList()
     setupNavigation()
     setupFab()
+    setupSnackbar()
+
     viewModel.loadTasks()
   }
 
@@ -49,6 +53,10 @@ class TasksFragment : BaseFragment<TasksViewModel, TasksFragmentBinding>() {
         viewModel.goToNewTask()
       }
     }
+  }
+
+  private fun setupSnackbar() {
+    view?.setupSnackbar(viewLifecycleOwner, viewModel.snackbarText, Snackbar.LENGTH_SHORT)
   }
 
   private fun goToNewTask() {

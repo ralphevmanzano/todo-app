@@ -7,4 +7,6 @@
     <string name="save">Save</string>
   <string name="android_vertical">vertical icon</string>
   <string name="successfully_marked">Successfully marked task as completed!</string>
+  <string name="empty_notice">Click the + button to add a task</string>
+  <string name="successfully_deleted">Successfully deleted task %s!</string>
 </resources>
