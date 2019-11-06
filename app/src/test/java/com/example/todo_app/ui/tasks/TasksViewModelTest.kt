@@ -1,23 +1,23 @@
 package com.example.todo_app.ui.tasks
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.LiveData
 import com.example.android.architecture.blueprints.todoapp.data.Result
 import com.example.todo_app.LiveDataTestUtil
 import com.example.todo_app.TestMainCoroutineRule
 import com.example.todo_app.data.Task
 import com.example.todo_app.data.TasksRepository
 import com.example.todo_app.runBlocking
-import com.nhaarman.mockitokotlin2.*
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.stub
+import com.nhaarman.mockitokotlin2.verifyBlocking
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.notNullValue
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.hamcrest.MatcherAssert.assertThat
 
 
 @ExperimentalCoroutinesApi
